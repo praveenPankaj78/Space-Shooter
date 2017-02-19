@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour {
     public float waveWait;
 
 	public GUIText ScoreText;
-	public int score;
+	private int score;   
 
 	void Start () {
 		score = 0;
@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void UpdateScore () {
-		ScoreText = "Score : " + score;
+		ScoreText.text = "Score : " + score;
 	}
 
 }
