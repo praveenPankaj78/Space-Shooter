@@ -11,15 +11,34 @@ public class GameController : MonoBehaviour {
     public float startWait;
     public float waveWait;
 
-	public GUIText ScoreText;
+	public GUIText scoreText;
+    public GUIText restartText;
+    public GUIText gameOverText;
+
+    private bool restart;
+    private bool gameOver;
 	private int score;   
 
 	void Start () {
+        restart = false;
+        gameOver = false;
+        restartText.text = "";
+        gameOverText.text = "";
 		score = 0;
 		UpdateScore ();
         StartCoroutine (SpawnWaves());
     }
-	
+
+    void Update() {
+        if (restart)
+        {
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                Application.LoadLevel(Application.loadedLevel);
+            }
+        }
+    }
+
     IEnumerator SpawnWaves ()
     {
         yield return new WaitForSeconds(startWait);
@@ -32,6 +51,11 @@ public class GameController : MonoBehaviour {
                 yield return new WaitForSeconds(spawnWait);
             }
             yield return new WaitForSeconds(waveWait);
+            if (gameOver) {
+                restartText.text = "Press 'R' for restart";
+                restart = true;
+                break;
+            }
         }
     }
 
@@ -41,7 +65,12 @@ public class GameController : MonoBehaviour {
 	}
 
 	void UpdateScore () {
-		ScoreText.text = "Score : " + score;
+		scoreText.text = "Score : " + score;
 	}
+
+    public void GameOver() {
+        gameOverText.text = "Game Over! ";
+        gameOver = true;
+    }
 
 }
